@@ -1,69 +1,85 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import Header from "@/components/Header";
+import ScientificCalculator from "@/components/ScientificCalculator";
+import GraphingCalculator from "@/components/GraphingCalculator";
+import ProgrammableCalculator from "@/components/ProgrammableCalculator";
+import MemoryPanel from "@/components/MemoryPanel";
 
 export default function Home() {
+  const [activeTab, setActiveTab] = useState<
+    "scientific" | "graphing" | "programmable"
+  >("scientific");
+  const [memory, setMemory] = useState<number>(0);
+  const [history, setHistory] = useState<string[]>([]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-6 sm:px-6 space-y-6">
+        {/* Navigation Tabs
+        <div className="flex items-center justify-center sm:justify-start gap-2 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800 w-fit">
+          <button
+            onClick={() => setActiveTab("scientific")}
+            className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+              activeTab === "scientific"
+                ? "bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20"
+                : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
+            }`}
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Scientific Mode
+          </button>
+          <button
+            onClick={() => setActiveTab("graphing")}
+            className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+              activeTab === "graphing"
+                ? "bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20"
+                : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
+            }`}
           >
-            Documentation
-          </a>
-        </div>
+            Graphing Engine
+          </button>
+          <button
+            onClick={() => setActiveTab("programmable")}
+            className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+              activeTab === "programmable"
+                ? "bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20"
+                : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
+            }`}
+          >
+            Programmable Solvers
+          </button>
+        </div> */}
+
+        {/* Dynamic View Mode */}
+        {activeTab === "scientific" && (
+          <ScientificCalculator
+            memory={memory}
+            setMemory={setMemory}
+            history={history}
+            setHistory={setHistory}
+          />
+        )}
+
+        {activeTab === "graphing" && <GraphingCalculator />}
+
+        {activeTab === "programmable" && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <ProgrammableCalculator />
+            </div>
+            <div>
+              <MemoryPanel memory={memory} setMemory={setMemory} />
+            </div>
+          </div>
+        )}
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-900 py-4 text-center text-xs text-slate-600">
+        Biskra University • Department of Computer Science • Practical Work 1
+        Solution
+      </footer>
     </div>
   );
 }
